@@ -6,7 +6,13 @@ export function errorHandler(error, req, res, next) {
       .status(error.statusCode)
       .json({ status: error.statusCode, message: error.message });
   }
-
+  if (error.name === 'ValidationError') {
+    return res.status(400).json({
+      status: 400,
+      message: 'Validation error',
+      data: error.message,
+    });
+  }
   console.error(error);
 
   res.status(500).json({
