@@ -1,5 +1,9 @@
 import createHttpError from 'http-errors';
 
+import { parsPaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParems.js';
+
 import {
   createContact,
   getAllContacts,
@@ -9,7 +13,17 @@ import {
 } from '../services/contacts.js';
 
 export async function showContactsController(req, res) {
-  const contacts = await getAllContacts().catch((error) => {
+  const { page, perPage } = parsPaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+  const { isFavourite, contactType } = parseFilterParams(req.query);
+  const contacts = await getAllContacts(
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    isFavourite,
+    contactType,
+  ).catch((error) => {
     return res.status(500).json({
       status: 500,
       message: 'Error retrieving contacts',
