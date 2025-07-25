@@ -55,6 +55,6 @@ export function updateContact(contactId, payload) {
   });
 }
 
-export function deleteContact(studentId) {
-  return ContactsCollection.findByIdAndDelete(studentId);
+export function deleteContact(contactId) {
+  return ContactsCollection.findByIdAndDelete(contactId);
 }
