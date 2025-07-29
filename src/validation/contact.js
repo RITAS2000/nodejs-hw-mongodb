@@ -9,7 +9,7 @@ export const contactShema = Joi.object({
   isFavourite: Joi.boolean().default(false),
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
-    // .default('personal')
+
     .required(),
 });
 
