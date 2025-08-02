@@ -1,9 +1,8 @@
+import * as fs from 'node:fs/promises';
 import createHttpError from 'http-errors';
-
 import { parsPaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParems.js';
-
 import {
   createContact,
   getAllContacts,
@@ -11,6 +10,7 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
+import { uploadToCLoudinary } from '../utils/uploadToCloudinary.js';
 
 export async function showContactsController(req, res) {
   const { page, perPage } = parsPaginationParams(req.query);
@@ -76,7 +76,13 @@ export async function showContactByIdController(req, res) {
 }
 
 export async function createNewContactController(req, res) {
-  const contact = await createContact({ ...req.body, userId: req.user.id });
+  const result = await uploadToCLoudinary(req.file.path);
+  await fs.unlink(req.file.path);
+  const contact = await createContact({
+    ...req.body,
+    photo: result.secure_url,
+    userId: req.user.id,
+  });
 
   res
     .status(201)

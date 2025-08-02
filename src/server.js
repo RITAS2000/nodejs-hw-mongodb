@@ -8,8 +8,10 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/auth.js';
+import path from 'node:path';
 
 const PORT = process.env.PORT || getEnvVar('PORT', '3000');
+const photosDir = path.resolve('src', 'uploads', 'photos');
 
 export function setupServer() {
   const app = express();
@@ -22,7 +24,9 @@ export function setupServer() {
       },
     }),
   );
+
   app.use(cookieParser());
+  app.use('/photos', express.static(photosDir));
   app.use('/auth', authRouters);
   app.use('/contacts', auth, contactsRouters);
   app.use(notFoundHandler);

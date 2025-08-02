@@ -7,10 +7,8 @@ export const contactShema = Joi.object({
     .required(),
   email: Joi.string().email().optional().allow(null),
   isFavourite: Joi.boolean().default(false),
-  contactType: Joi.string()
-    .valid('work', 'home', 'personal')
-
-    .required(),
+  contactType: Joi.string().valid('work', 'home', 'personal').required(),
+  photo: Joi.string(),
 });
 
 export const updateContactShema = Joi.object({
@@ -21,4 +19,5 @@ export const updateContactShema = Joi.object({
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
     .default('personal'),
+  photo: Joi.string(),
 });
