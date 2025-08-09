@@ -10,7 +10,7 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
-import { uploadToCLoudinary } from '../utils/uploadToCloudinary.js';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
 
 export async function showContactsController(req, res) {
   const { page, perPage } = parsPaginationParams(req.query);
@@ -76,7 +76,7 @@ export async function showContactByIdController(req, res) {
 }
 
 export async function createNewContactController(req, res) {
-  const result = await uploadToCLoudinary(req.file.path);
+  const result = await uploadToCloudinary(req.file.path);
   await fs.unlink(req.file.path);
   const contact = await createContact({
     ...req.body,
@@ -101,10 +101,17 @@ export async function createNewContactController(req, res) {
 }
 
 export async function updateContactController(req, res) {
+  const updateData = { ...req.body };
+
+  if (req.file) {
+    const result = await uploadToCloudinary(req.file.path);
+    await fs.unlink(req.file.path);
+    updateData.photo = result.secure_url;
+  }
   const result = await updateContact(
     req.params.contactId,
     req.user.id,
-    req.body,
+    updateData,
   );
 
   if (result === null) {

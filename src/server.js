@@ -9,6 +9,12 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/auth.js';
 import path from 'node:path';
+import swaggerUI from 'swagger-ui-express';
+import * as fs from 'node:fs';
+
+const SWAGGER_DOCUMENT = JSON.parse(
+  fs.readFileSync(path.join('docs', 'swagger.json')),
+);
 
 const PORT = process.env.PORT || getEnvVar('PORT', '3000');
 const photosDir = path.resolve('src', 'uploads', 'photos');
@@ -26,6 +32,7 @@ export function setupServer() {
   );
 
   app.use(cookieParser());
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
   app.use('/photos', express.static(photosDir));
   app.use('/auth', authRouters);
   app.use('/contacts', auth, contactsRouters);

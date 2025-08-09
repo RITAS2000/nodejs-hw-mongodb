@@ -1,0 +1,54 @@
+type: object
+required:
+  - photo
+  - _id
+  - name
+  - phoneNumber
+  - email
+  - isFavourite
+  - contactType
+  - userId
+  - createdAt
+  - updatedAt
+properties:
+  photo:
+    type: string
+    description: Student avatar
+    default: null
+  _id:
+    type: string
+    description: Contact id
+    example: 68869c688b4e9df540aaff91
+  name:
+    type: string
+    description: Contact name
+    example: Liza Yang
+  phoneNumber:
+    type: string
+    description: Contact phone
+    example: +380000000018
+  email:
+    type: string
+    description: Contact email
+    example: LizaYang@gmail.com
+  isFavourite:
+    type: boolean
+    description: Contact favourite
+    example: false
+  contactType:
+    type: string
+    description: Contact type
+    enum: ['work', 'home', 'personal']
+    example: work
+  userId:
+    type: string
+    description: Contact user id
+    example: 6883d681a12e185d5c093afc
+  createdAt:
+    type: string
+    format: date-time
+    example: 2025-07-21T17:27:59.621+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    example: 2025-07-21T17:27:59.621+00:00

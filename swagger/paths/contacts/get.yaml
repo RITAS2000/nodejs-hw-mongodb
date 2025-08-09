@@ -1,0 +1,96 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getContacts
+description: 'Get all contacts'
+security: []
+parameters:
+  - name: page
+    in: query
+    description: Page number
+    required: false
+    schema:
+      type: integer
+      default: 1
+  - name: perPage
+    in: query
+    description: Number of items per page
+    required: false
+    schema:
+      type: integer
+      default: 10
+  - name: sortBy
+    in: query
+    description: Field by which the sorting is performed
+    required: false
+    schema:
+      type: string
+      enum: ['_id', 'name', 'phoneNumber', 'email', 'createdAt']
+      default: '_id'
+  - name: sortOrder
+    in: query
+    description: Sorting order — ascending or descending
+    required: false
+    schema:
+      type: string
+      enum: [asc, desc]
+      default: asc
+  - name: isFavourite
+    in: query
+    description: Filter contacts by favourite status
+    required: false
+    schema:
+      type: string
+      enum: ['true', 'false']
+  - name: type
+    in: query
+    description: Filter contacts by contact type
+    required: false
+    schema:
+      type: string
+      enum: ['work', 'home', 'personal']
+      default: work
+responses:
+  '200':
+    description: 'Get all contacts'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully found contacts!'
+            data:
+              type: arrey
+              items:
+                type: object
+                $ref: '../../components/schemas/contact.yaml'
+              $ref: ../../components/schemas/contact.yaml
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    description: Contacts not found
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Contacts not found
+  '500':
+    $ref: ../../components/responses/500.yaml
