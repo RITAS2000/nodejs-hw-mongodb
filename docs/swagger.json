@@ -14,17 +14,13 @@
       "url": "http://localhost:3000"
     },
     {
-      "url": "https://nodejs-hw-mongodb-4-ae32.onrender.com"
+      "url": "https://nodejs-hw-mongodb-5-tce7.onrender.com"
     }
   ],
   "tags": [
     {
       "name": "Contacts",
       "description": "Operations about contacts."
-    },
-    {
-      "name": "Auth",
-      "description": "Auth operations."
     }
   ],
   "paths": {
@@ -140,12 +136,7 @@
                       "example": "Successfully found contacts!"
                     },
                     "data": {
-                      "type": "arrey",
-                      "items": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/contact"
-                      },
-                      "$ref": "#/components/schemas/contact"
+                      "$ref": "#/components/schemas/pagination"
                     }
                   }
                 }
@@ -200,9 +191,9 @@
                 "type": "object",
                 "required": [
                   "name",
+                  "email",
                   "phoneNumber",
-                  "contactType",
-                  "userId"
+                  "contactType"
                 ],
                 "properties": {
                   "photo": {
@@ -214,6 +205,11 @@
                     "description": "Contact's name",
                     "type": "string",
                     "example": "Liza Yang"
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "LizaYang@gmail.com"
                   },
                   "phoneNumber": {
                     "description": "Contact's phone number",
@@ -234,11 +230,6 @@
                       "personal"
                     ],
                     "example": "work"
-                  },
-                  "userId": {
-                    "description": "User ID who owns the contact",
-                    "type": "string",
-                    "example": "6897572dcfa7b27ca058f44a"
                   }
                 }
               }
@@ -388,6 +379,52 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photo": {
+                    "description": "Contact's photo",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "name": {
+                    "description": "Contact's name",
+                    "type": "string",
+                    "example": "Liza Yang"
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "LizaYang@gmail.com"
+                  },
+                  "phoneNumber": {
+                    "description": "Contact's phone number",
+                    "type": "string",
+                    "example": "+12121212151"
+                  },
+                  "isFavourite": {
+                    "description": "Contact favourite",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "contactType": {
+                    "description": "Contact type",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "work"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Patch contact by id",
@@ -590,6 +627,50 @@
             "type": "string",
             "format": "date-time",
             "example": "2025-07-21T17:27:59.621+00:00"
+          }
+        }
+      },
+      "pagination": {
+        "type": "object",
+        "required": [
+          "data",
+          "page",
+          "perPage",
+          "totalItems",
+          "totalPages",
+          "hasPreviousPage",
+          "hasNextPage"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/contact"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "perPage": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalItems": {
+            "type": "integer",
+            "example": 1
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 1
+          },
+          "hasPreviousPage": {
+            "type": "boolean",
+            "example": false
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "example": false
           }
         }
       }
