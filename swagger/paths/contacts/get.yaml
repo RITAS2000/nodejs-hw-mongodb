@@ -69,11 +69,8 @@ responses:
               type: string
               example: 'Successfully found contacts!'
             data:
-              type: arrey
-              items:
-                type: object
-                $ref: '../../components/schemas/contact.yaml'
-              $ref: ../../components/schemas/contact.yaml
+              $ref: ../../components/schemas/pagination.yaml
+
   '401':
     $ref: '../../components/responses/401.yaml'
   '404':

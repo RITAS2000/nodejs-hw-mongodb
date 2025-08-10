@@ -12,9 +12,9 @@ requestBody:
         type: object
         required:
           - name
+          - email
           - phoneNumber
           - contactType
-          - userId
         properties:
           photo:
             description: "Contact's photo"
@@ -24,6 +24,10 @@ requestBody:
             description: "Contact's name"
             type: string
             example: 'Liza Yang'
+          email:
+            description: "Contact's email"
+            type: string
+            example: 'LizaYang@gmail.com'
           phoneNumber:
             description: "Contact's phone number"
             type: string
@@ -37,10 +41,6 @@ requestBody:
             type: string
             enum: ['work', 'home', 'personal']
             example: 'work'
-          userId:
-            description: 'User ID who owns the contact'
-            type: string
-            example: '6897572dcfa7b27ca058f44a'
 responses:
   '201':
     description: 'Create contact'
